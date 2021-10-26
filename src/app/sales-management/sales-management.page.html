@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="dashboard"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row>
+    <ion-col class="center">
+      <h2>Cost Management</h2>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="12">
+      <form [formGroup]="costMgtForm" (ngSubmit)="onSubmit(costMgtForm.value)">
+        <mat-form-field appearance="outline">
+          <mat-label>Choose a date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="date" (dateChange)="datechange($event)">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field style="margin-right: 3%;" appearance="outline">
+          <mat-label>Choose Type</mat-label>
+          <mat-select formControlName="type">
+            <mat-option value="expenses">Expense</mat-option>
+            <mat-option value="sales">Sales</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Amount</mat-label>
+          <input matInput placeholder="Enter amount" type="number" min="1" formControlName="amount">
+          <mat-icon matSuffix>money</mat-icon>
+          <mat-hint>
+            <div class="validation-errors">
+              <ng-container *ngFor="let validation of validation_messages.phone">
+                <div class="error-message"
+                  *ngIf="costMgtForm.get('amount').hasError(validation.type) && (costMgtForm.get('amount').dirty || costMgtForm.get('amount').touched)">
+                  <ion-icon name="information-circle-outline"></ion-icon>
+                  {{ validation.message }}
+                </div>
+              </ng-container>
+            </div>
+          </mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Comments</mat-label>
+          <textarea matInput placeholder="Drop your comments if any" formControlName="comment"></textarea>
+        </mat-form-field>
+
+        <ion-button [disabled]="isDisabled" (click)='isDisabled = true' expand="block" type="submit">Submit</ion-button>
+      </form>
+    </ion-col>
+  </ion-row>
+</ion-content>
