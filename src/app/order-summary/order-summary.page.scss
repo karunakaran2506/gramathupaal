@@ -1,0 +1,32 @@
+table {
+    width: 100%;
+}
+
+.example-radio-group {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+  }
+  
+.example-radio-button {
+    margin: 5px;
+}
+
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+  border-color:var(--ion-color-primary); 
+}
+
+::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle{
+  color:var(--ion-color-primary);
+  background-color: var(--ion-color-primary) ;
+}
+
+::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+    background-color:var(--ion-color-primary)
+}
+
+.form{
+  width: 90%;
+  padding-left:​ 5%;
+  padding-right:​ 5%;
+}

@@ -23,6 +23,14 @@ const routes: Routes = [
     path: 'sales',
     loadChildren: () => import('./sales-management/sales-management.module').then( m => m.SalesManagementPageModule)
   },
+  {
+    path: 'order-summary',
+    loadChildren: () => import('./order-summary/order-summary.module').then( m => m.OrderSummaryPageModule)
+  },
+  {
+    path: 'thanks',
+    loadChildren: () => import('./thanks/thanks.module').then( m => m.ThanksPageModule)
+  },
 ];
 
 @NgModule({

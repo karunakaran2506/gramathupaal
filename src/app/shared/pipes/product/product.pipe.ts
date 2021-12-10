@@ -9,7 +9,7 @@ export class ProductPipe implements PipeTransform {
       return products;
     }
     else {
-      let product = products.filter(x => x.category === category);
+      let product = products.filter(x => x.category._id === category);
       return product.length ? product : [];
     }
   }

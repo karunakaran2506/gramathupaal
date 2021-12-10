@@ -1,0 +1,78 @@
+<ion-header translucent style="height:60px">
+  <ion-toolbar>
+    <ion-title style=" font-weight:500;text-align: center;">Order Summary</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row>
+    <ion-col size="12">
+      <table mat-table [dataSource]="items">
+        <ng-container matColumnDef="item">
+          <th mat-header-cell *matHeaderCellDef> Item </th>
+          <td style="display: flex;" mat-cell *matCellDef="let element">
+            <div>
+              <img style="height: 2rem;" src="../../assets/images/{{element.image}}" />
+            </div>
+            <div>
+              <p style="font-size: small;margin: auto;">{{element.name}}</p>
+              <p style="font-size: smaller;">{{element.productquantity + ' ' + element.unit}}</p>
+            </div>
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef> Quantity </th>
+          <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+          <td mat-footer-cell *matFooterCellDef><b>Total Amount :</b></td>
+        </ng-container>
+
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef> Price </th>
+          <td mat-cell *matCellDef="let element"> {{element.price * element.quantity | currency : 'INR'}} </td>
+          <td mat-footer-cell *matFooterCellDef><b>{{this.totalamount | currency : 'INR'}}</b></td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+      </table>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="12">
+      <label style="padding-left: 5%;">Payment Method</label>
+      <mat-radio-group [(ngModel)]="paymentMethod" class="example-radio-group">
+        <mat-radio-button class="example-radio-button" *ngFor="let data of methods" [value]="data.value">
+          {{data.name}}
+        </mat-radio-button>
+      </mat-radio-group>
+      <mat-form-field *ngIf="this.paymentMethod === 'cash'" style="padding:0% 5%;width: 95%;" appearance="outline">
+        <mat-label>Amount collected</mat-label>
+        <input matInput [(ngModel)]="amountCollected" type="number" min="{{this.subtotal}}" placeholder="Placeholder">
+        <mat-icon matSuffix>money</mat-icon>
+      </mat-form-field>
+    </ion-col>
+  </ion-row>
+  <ion-row *ngIf="this.paymentMethod === 'cash'">
+    <ion-col style="text-align: center;" size="12">
+      <ion-label *ngIf="this.amountCollected > this.totalamount; else ionLabel2">Change to be given : {{this.amountCollected ? (this.amountCollected - this.totalamount | currency : 'INR') : 0 | currency : 'INR'}}</ion-label>
+      <ng-template #ionLabel2>
+        <ion-label color="danger">Money deficient : {{this.amountCollected ? (this.totalamount - this.amountCollected | currency : 'INR') : this.totalamount | currency : 'INR'}}</ion-label>
+      </ng-template>
+    </ion-col>
+  </ion-row>
+</ion-content>
+<ion-footer>
+  <ion-row>
+    <ion-col size="12">
+      <ion-button disabled="{{this.paymentMethod === 'cash' && (this.amountCollected < this.totalamount) }}" expand="block" (click)="placeOrder()">Complete Order</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

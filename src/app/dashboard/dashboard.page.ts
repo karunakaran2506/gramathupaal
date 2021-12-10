@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, NavController, ToastController } from '@ionic/angular';
+import { AlertController, ModalController, NavController, ToastController } from '@ionic/angular';
+import { OrderSummaryPage } from '../order-summary/order-summary.page';
 import { ApiService } from '../service/api.service';
 
 @Component({
@@ -30,7 +31,8 @@ export class DashboardPage implements OnInit {
     private apiservice: ApiService,
     private navCtrl: NavController,
     private alertController: AlertController,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private modalCtrl : ModalController
   ) { }
 
   ngOnInit() {
@@ -51,6 +53,30 @@ export class DashboardPage implements OnInit {
 
     // 
 
+    // category & products
+
+    let storeData = { store: localStorage.getItem('store') };
+
+    this.apiservice.listCategory(storeData)
+      .subscribe((data: any) => {
+        this.category = data.category;
+      })
+
+    this.apiservice.listProduct(storeData)
+      .subscribe((data: any) => {
+        this.products = data.product;
+      })
+
+      this.getCartItems()
+
+    // ends
+  }
+
+  ionViewWillEnter(){
+    this.getCartItems();
+  }
+
+  getCartItems(){
     // Cart details
     this.items = localStorage.getItem('cartitems') ? JSON.parse(localStorage.getItem('cartitems')) : [];
 
@@ -65,22 +91,6 @@ export class DashboardPage implements OnInit {
       this.taxamount = taxamount2;
       this.totalamount = this.subtotal + this.subcharges;
     }
-
-    // ends
-
-    // category & products
-
-    let storeData = { store: localStorage.getItem('store') };
-
-    this.apiservice.listCategory(storeData)
-      .subscribe((data: any) => {
-        this.category = data.category;
-      })
-
-    this.apiservice.listProduct(storeData)
-      .subscribe((data: any) => {
-        this.products = data.product;
-      })
   }
 
   segmentChanged(event) {
@@ -107,7 +117,7 @@ export class DashboardPage implements OnInit {
         this.items.push(cartitem);
         localStorage.setItem('cartitems', JSON.stringify(this.items));
         this.presenttoast('Product added to the cart');
-        this.ngOnInit();
+        this.getCartItems();
       }
     }
     else {
@@ -133,29 +143,20 @@ export class DashboardPage implements OnInit {
         })
       }
       localStorage.setItem('cartitems', JSON.stringify(this.items));
-      this.ngOnInit();
+      this.getCartItems();
     }
   }
 
-  placeOrder() {
+  async openOrderSummary(){
+    const modal = await this.modalCtrl.create({
+      component: OrderSummaryPage,
+      cssClass: 'my-custom-modal-css'
+    })
+    return modal.present();
+  }
 
-    let data = {
-      orderitems : this.items,
-      store : localStorage.getItem('store'),
-      subtotal : this.subtotal,
-      totalamount : this.totalamount
-    }
-    this.apiservice.placeOrder(data)
-     .subscribe((data:any)=>{
-       if(data.success){
-         this.presenttoast(data.message);
-         localStorage.removeItem('cartitems');
-         this.ngOnInit();
-       }
-       else{
-         this.presenttoast(data.message);
-       }
-     })
+  placeOrder() {
+    this.openOrderSummary();
   }
 
   removeCart(productId) {
@@ -193,7 +194,8 @@ export class DashboardPage implements OnInit {
   async presenttoast(txt) {
     const toast = await this.toastCtrl.create({
       message: txt,
-      duration: 2500
+      duration: 2500,
+      position: 'top'
     });
     toast.present();
   }

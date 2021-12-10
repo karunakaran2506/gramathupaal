@@ -35,7 +35,7 @@
   <ion-slides [options]="sliderConfig">
     <ion-slide *ngFor="let data of products | product : this.activeSegment">
       <ion-card class="bg">
-        <img src="../../assets/milk.png" />
+        <img style="height: 10rem;" src="../../assets/images/{{data.image}}" />
         <ion-card-content>
           <ion-label>
             {{data.name}}
@@ -68,12 +68,11 @@
   <hr>
 
   <table mat-table [dataSource]="items" class="mat-elevation-z8">
-
     <ng-container matColumnDef="item">
       <th mat-header-cell *matHeaderCellDef> Item </th>
       <td style="display: flex;" mat-cell *matCellDef="let element">
         <div>
-          <img style="height: 2rem;" src="../../assets/milk.png" />
+          <img style="height: 2rem;" src="../../assets/images/{{element.image}}" />
         </div>
         <div>
           <p style="font-size: small;margin: auto;">{{element.name}}</p>

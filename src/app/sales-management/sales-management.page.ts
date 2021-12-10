@@ -22,9 +22,11 @@ export class SalesManagementPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.selectedDate = new Date();
+
     this.costMgtForm = new FormGroup({
-      date : new FormControl(''),
-      type : new FormControl('', Validators.required),
+      date : new FormControl(this.selectedDate),
+      type : new FormControl('expenses'),
       amount : new FormControl('', Validators.required),
       comment : new FormControl(''),
     })
