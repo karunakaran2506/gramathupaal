@@ -31,11 +31,23 @@ const routes: Routes = [
     path: 'thanks',
     loadChildren: () => import('./thanks/thanks.module').then( m => m.ThanksPageModule)
   },
+  {
+    path: 'milkcard',
+    loadChildren: () => import('./milkcard/milkcard.module').then( m => m.MilkcardPageModule)
+  },
+  {
+    path: 'assign-token',
+    loadChildren: () => import('./assign-token/assign-token.module').then( m => m.AssignTokenPageModule)
+  },
+  {
+    path: 'customer-sales',
+    loadChildren: () => import('./customer-sales/customer-sales.module').then( m => m.CustomerSalesPageModule)
+  },
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { useHash : true, preloadingStrategy: PreloadAllModules })
   ],
   exports: [RouterModule]
 })

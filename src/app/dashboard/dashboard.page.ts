@@ -67,7 +67,7 @@ export class DashboardPage implements OnInit {
         this.products = data.product;
       })
 
-      this.getCartItems()
+      this.getCartItems();
 
     // ends
   }
@@ -162,6 +162,7 @@ export class DashboardPage implements OnInit {
   removeCart(productId) {
     this.items = this.items.filter(x => x.product !== productId);
     localStorage.setItem('cartitems', JSON.stringify(this.items));
+    this.getCartItems();
   }
 
   gotoPage(page){
@@ -182,6 +183,12 @@ export class DashboardPage implements OnInit {
         }, {
           text: 'Yes',
           handler: () => {
+            let payLoad = {
+              sessiontype : 'out',
+              store : localStorage.getItem('store')
+            };
+            this.apiservice.createSession(payLoad, localStorage.getItem('token'))
+             .subscribe((data:any)=>{})
             localStorage.clear();
             this.navCtrl.navigateRoot('/home');
           }

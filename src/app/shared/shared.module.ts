@@ -4,11 +4,13 @@ import { IonicModule } from "@ionic/angular";
 import { MaterialModule } from "./material/material.module";
 import { ProductPipe } from "./pipes/product/product.pipe";
 import { CartquantityPipe } from './pipes/cartquantity/cartquantity.pipe';
+import { ImagePipe } from './pipes/image/image.pipe';
 
 @NgModule({
     declarations : [
         ProductPipe,
-        CartquantityPipe
+        CartquantityPipe,
+        ImagePipe
     ],
     imports : [
         CommonModule,
@@ -18,7 +20,8 @@ import { CartquantityPipe } from './pipes/cartquantity/cartquantity.pipe';
     exports : [
         ProductPipe,
         MaterialModule,
-        CartquantityPipe
+        CartquantityPipe,
+        ImagePipe
     ]
 })
 

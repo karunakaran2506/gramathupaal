@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="dashboard"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row>
+    <ion-col class="center">
+      <h2>Sell Milkcards</h2>
+    </ion-col>
+  </ion-row>
+  <ion-row style="padding: 0% 6%;">
+    <ion-col size="12">
+      <ion-segment [value]="activeSegment" (ionChange)="segmentChanged($event.target.value)">
+        <ion-segment-button value="existing">
+          <ion-label>Existing Customer</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="new">
+          <ion-label>New Customer</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="12">
+      <form [formGroup]="milkcardForm" (ngSubmit)="onSubmit(milkcardForm.value)">
+        <div *ngIf="this.activeSegment === 'existing'">
+          <mat-form-field style="margin-right: 3%;" appearance="outline">
+            <mat-label>Customer</mat-label>
+            <input type="text" placeholder="Select customer" matInput [formControl]="customer" [matAutocomplete]="auto">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
+              (optionSelected)="customerChange($event.option.value)">
+              <mat-option *ngFor="let option of filteredOptions | async" [value]="option.phone">
+                {{option?.name}} - {{option?.phone}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div *ngIf="this.activeSegment === 'new'">
+          <mat-form-field class="customer-form" appearance="outline">
+            <mat-label>Customer Name</mat-label>
+            <input type="text" placeholder="Enter customer name" matInput formControlName="name">
+          </mat-form-field>
+          <mat-form-field class="customer-form" appearance="outline">
+            <mat-label>Customer Phone</mat-label>
+            <input type="number" placeholder="Enter customer phone" matInput formControlName="phone">
+          </mat-form-field>
+        </div>
+        <mat-form-field style="margin-right: 3%;" appearance="outline">
+          <mat-label>Choose Milkcard</mat-label>
+          <mat-select (selectionChange)="calculatePrice($event.value)" formControlName="milkcard">
+            <mat-option *ngFor="let data of milkcard" value="{{data?._id}},{{data?.validity}}">{{data?.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <ion-row>
+          <ion-col style="text-align: center;" size="12">
+            <h3>Price : {{ this.totalamount | currency : 'INR'}}</h3>
+          </ion-col>
+        </ion-row>
+        <ion-button [disabled]="isDisabled" (click)='isDisabled = true' expand="block" type="submit">Submit</ion-button>
+      </form>
+    </ion-col>
+  </ion-row>
+</ion-content>

@@ -46,4 +46,65 @@ export class ApiService {
       }
     })
   }
+
+  createSession(data, token){
+    return this.http.post( this.baseUrl + 'createSession', data, {
+      headers : {
+        token : token
+      }
+    })
+  }
+
+  // Customer Functions
+  listCustomer(){
+    return this.http.get( this.baseUrl + 'viewCustomerbyStore', {
+      headers : {
+        store : localStorage.getItem('store')
+      }
+    })
+  }
+
+  // Milk card functions
+
+  createMilkcardEntry(data:any){
+    return this.http.post( this.baseUrl + 'createMilkcardEntry', data, {
+      headers : {
+        token : localStorage.getItem('store')
+      }
+    })
+  }
+
+  listMilkcard(){
+    return this.http.get( this.baseUrl + 'listMilkcard', {
+      headers : {
+        store : localStorage.getItem('store')
+      }
+    })
+  }
+
+  // Product token functions
+
+  createProductToken(data:any){
+    return this.http.post( this.baseUrl + 'createProductToken', data, {
+      headers : {
+        token : localStorage.getItem('store')
+      }
+    })
+  }
+
+  listProductTokenbyCustomer(data:any){
+    return this.http.post( this.baseUrl + 'listProductTokenbyCustomer', data, {
+      headers : {
+        token : localStorage.getItem('token')
+      }
+    })
+  }
+
+  listMilkcardEntrybyCustomer(data:any){
+    return this.http.post( this.baseUrl + 'listMilkcardEntrybyCustomer', data, {
+      headers : {
+        token : localStorage.getItem('token')
+      }
+    })
+  }
 }

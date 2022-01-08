@@ -50,6 +50,12 @@ export class HomePage implements OnInit {
          this.presenttoast(data.message);
          localStorage.setItem('token', data?.token);
          localStorage.setItem('store', data?.user?.store);
+         let payLoad = {
+           sessiontype : 'in',
+           store : data?.user?.store
+         };
+         this.apiservice.createSession(payLoad,data?.token)
+          .subscribe((data:any)=>{})
          this.navCtrl.navigateForward('dashboard');
        }
        else{

@@ -12,6 +12,18 @@
           <mat-icon>account_balance</mat-icon>
           <span>Sales & Expenses</span>
         </button>
+        <button mat-menu-item (click)="gotoPage('/milkcard')">
+          <mat-icon>card_membership</mat-icon>
+          <span>Sell Milkcard</span>
+        </button>
+        <button mat-menu-item (click)="gotoPage('/assign-token')">
+          <mat-icon>card_membership</mat-icon>
+          <span>Sell Token</span>
+        </button>
+        <button mat-menu-item (click)="gotoPage('/customer-sales')">
+          <mat-icon>attach_money</mat-icon>
+          <span>Customer Sales</span>
+        </button>
         <button mat-menu-item (click)="logout()">
           <mat-icon>power_settings_new</mat-icon>
           <span>Log-out</span>
@@ -35,7 +47,7 @@
   <ion-slides [options]="sliderConfig">
     <ion-slide *ngFor="let data of products | product : this.activeSegment">
       <ion-card class="bg">
-        <img style="height: 10rem;" src="../../assets/images/{{data.image}}" />
+        <img style="height: 10rem;" src="{{data.image | image}}" />
         <ion-card-content>
           <ion-label>
             {{data.name}}
@@ -72,7 +84,7 @@
       <th mat-header-cell *matHeaderCellDef> Item </th>
       <td style="display: flex;" mat-cell *matCellDef="let element">
         <div>
-          <img style="height: 2rem;" src="../../assets/images/{{element.image}}" />
+          <img style="height: 2rem;" src="{{element.image | image }}" />
         </div>
         <div>
           <p style="font-size: small;margin: auto;">{{element.name}}</p>

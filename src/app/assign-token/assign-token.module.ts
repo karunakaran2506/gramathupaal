@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { OrderSummaryPageRoutingModule } from './order-summary-routing.module';
-import { OrderSummaryPage } from './order-summary.page';
+import { AssignTokenPageRoutingModule } from './assign-token-routing.module';
+import { AssignTokenPage } from './assign-token.page';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
@@ -12,9 +12,9 @@ import { SharedModule } from '../shared/shared.module';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    SharedModule,
-    OrderSummaryPageRoutingModule
+    AssignTokenPageRoutingModule,
+    SharedModule
   ],
-  declarations: [OrderSummaryPage]
+  declarations: [AssignTokenPage]
 })
-export class OrderSummaryPageModule {}
+export class AssignTokenPageModule {}
