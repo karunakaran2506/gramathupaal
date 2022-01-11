@@ -45,7 +45,7 @@ export class CustomerSalesPage implements OnInit {
 
   getData() {
     let payload: any = {
-      customer: this.customerSelected
+      customer: this.customerSelected._id
     }
     this.apiservice.listProductTokenbyCustomer(payload)
       .subscribe((data: any) => {

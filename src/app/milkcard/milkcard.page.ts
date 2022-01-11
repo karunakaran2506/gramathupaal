@@ -23,6 +23,20 @@ export class MilkcardPage implements OnInit {
   totalamount = 0;
   customerSelected: any;
   filteredOptions: Observable<any[]>;
+  methods = [
+    {
+      name: 'Cash',
+      value: 'cash'
+    },
+    {
+      name: 'Credit Card / Debit Card',
+      value: 'card'
+    },
+    {
+      name: 'UPI / GPay / Phone pe / PayTM',
+      value: 'upi'
+    },
+  ];
 
   constructor(
     private toastCtrl: ToastController,
@@ -43,6 +57,7 @@ export class MilkcardPage implements OnInit {
 
     this.milkcardForm = new FormGroup({
       milkcard: new FormControl('', Validators.required),
+      paymentMethod: new FormControl('', Validators.required),
       name: new FormControl(''),
       phone: new FormControl('')
     })
@@ -85,14 +100,16 @@ export class MilkcardPage implements OnInit {
       let data: any = {
         milkcard: milkcard[0],
         validity: milkcard[1],
-        store: localStorage.getItem('store')
+        store: localStorage.getItem('store'),
+        price: this.totalamount,
+        paymentMethod: value.paymentMethod
       };
 
       if (this.activeSegment === 'existing') {
         data = {
           ...data,
           customer: {
-            id: value.customer
+            id: this.customerSelected
           }
         }
       } else {

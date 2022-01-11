@@ -24,6 +24,20 @@ export class AssignTokenPage implements OnInit {
   totalamount = 0.00;
   customerSelected: any;
   filteredOptions: Observable<any[]>;
+  methods = [
+    {
+      name: 'Cash',
+      value: 'cash'
+    },
+    {
+      name: 'Credit Card / Debit Card',
+      value: 'card'
+    },
+    {
+      name: 'UPI / GPay / Phone pe / PayTM',
+      value: 'upi'
+    },
+  ];
 
   constructor(
     private toastCtrl: ToastController,
@@ -49,6 +63,7 @@ export class AssignTokenPage implements OnInit {
     this.producttokenForm = new FormGroup({
       product: new FormControl('', Validators.required),
       quantity: new FormControl(1, Validators.required),
+      paymentMethod: new FormControl('', Validators.required),
       name: new FormControl(''),
       phone: new FormControl('')
     })
@@ -92,6 +107,8 @@ export class AssignTokenPage implements OnInit {
       let data: any = {
         product: value.product,
         quantity: value.quantity,
+        paymentMethod: value.paymentMethod,
+        price: this.totalamount,
         store: localStorage.getItem('store')
       };
 

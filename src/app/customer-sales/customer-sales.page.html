@@ -27,6 +27,24 @@
     </ion-col>
   </ion-row>
 
+  <ion-card *ngIf="this.customerSelected">
+    <ion-card-header>
+      <ion-card-subtitle><b>Customer Details</b></ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-row>
+        <ion-col size="8" style="text-align: left;">
+          <p><b>Customer Name</b></p>
+          <p><b>Mobile Number</b></p>
+        </ion-col>
+        <ion-col size="4" style="text-align: right;">
+          <p><b>{{this.customerSelected?.name}}</b></p>
+          <p><b>{{this.customerSelected?.phone}}</b></p>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+
   <ion-card>
     <ion-card-header>
       <ion-card-subtitle><b>Active Milkcards</b></ion-card-subtitle>

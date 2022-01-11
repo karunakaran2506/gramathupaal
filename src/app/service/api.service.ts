@@ -69,7 +69,7 @@ export class ApiService {
   createMilkcardEntry(data:any){
     return this.http.post( this.baseUrl + 'createMilkcardEntry', data, {
       headers : {
-        token : localStorage.getItem('store')
+        token : localStorage.getItem('token')
       }
     })
   }
@@ -87,7 +87,7 @@ export class ApiService {
   createProductToken(data:any){
     return this.http.post( this.baseUrl + 'createProductToken', data, {
       headers : {
-        token : localStorage.getItem('store')
+        token : localStorage.getItem('token')
       }
     })
   }

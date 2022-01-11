@@ -60,6 +60,14 @@
           <input (change)="calculatePrice($event.target.value)" matInput placeholder="Enter amount" type="number" min="1" formControlName="quantity">
         </mat-form-field>
 
+        <mat-form-field style="margin-right: 3%;" appearance="outline">
+          <mat-label>Payment Method</mat-label>
+          <mat-select formControlName="paymentMethod">
+            <mat-option *ngFor="let data of methods" value="{{data?.value}}">{{data?.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
         <ion-row>
           <ion-col style="text-align: center;" size="12">
             <h3>Price : {{ this.totalamount | currency : 'INR'}}</h3>
