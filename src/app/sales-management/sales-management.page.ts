@@ -60,7 +60,6 @@ export class SalesManagementPage implements OnInit {
 
       this.apiservice.saveCostEntry(data)
        .subscribe((data:any)=>{
-         console.log('data', data);
          if(data.success){
           this.presenttoast(data.message);
           this.formGroupDirective.resetForm();

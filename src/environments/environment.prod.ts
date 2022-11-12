@@ -1,5 +1,6 @@
 export const environment = {
-  // production: false,
-  url : 'http://3.108.112.127:3030/'
-  // url : 'http://localhost:3030/'
+  bucketname: 'satyaincenseindia',
+  s3region: 'ap-south-1',
+  production: true,
+  url: 'http://3.108.112.127:3030/',
 };
