@@ -14,7 +14,7 @@
   </ion-row>
   <ion-row style="padding: 0% 6%;">
     <ion-col size="12">
-      <ion-segment [value]="activeSegment" (ionChange)="segmentChanged($event.target.value)">
+      <ion-segment [value]="activeSegment" (ionChange)="segmentChanged($event)">
         <ion-segment-button value="existing">
           <ion-label>Existing Customer</ion-label>
         </ion-segment-button>

@@ -11,7 +11,6 @@ import { ApiService } from '../service/api.service';
   styleUrls: ['./milkcard.page.scss'],
 })
 export class MilkcardPage implements OnInit {
-
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
   isDisabled: boolean = false;
@@ -26,130 +25,124 @@ export class MilkcardPage implements OnInit {
   methods = [
     {
       name: 'Cash',
-      value: 'cash'
+      value: 'cash',
     },
     {
       name: 'Credit Card / Debit Card',
-      value: 'card'
+      value: 'card',
     },
     {
       name: 'UPI / GPay / Phone pe / PayTM',
-      value: 'upi'
+      value: 'upi',
     },
   ];
 
   constructor(
     private toastCtrl: ToastController,
     private apiservice: ApiService
-  ) { }
+  ) {}
 
   ngOnInit() {
+    this.apiservice.listCustomer().subscribe((data: any) => {
+      this.customerList = data?.customer;
+    });
 
-    this.apiservice.listCustomer()
-      .subscribe((data: any) => {
-        this.customerList = data?.customer;
-      })
-
-    this.apiservice.listMilkcard()
-      .subscribe((data: any) => {
-        this.milkcard = data?.milkcard;
-      })
+    this.apiservice.listMilkcard().subscribe((data: any) => {
+      this.milkcard = data?.milkcard;
+    });
 
     this.milkcardForm = new FormGroup({
       milkcard: new FormControl('', Validators.required),
       paymentMethod: new FormControl('', Validators.required),
       name: new FormControl(''),
-      phone: new FormControl('')
-    })
+      phone: new FormControl(''),
+    });
 
     this.filteredOptions = this.customer.valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(value)),
+      map((value) => this._filter(value))
     );
   }
 
   validation_messages = {
-    customer: [
-      { type: 'required', message: 'Customer is required' },
-    ],
-    milkcard: [
-      { type: 'required', message: 'Customer is required' },
-    ],
-  }
+    customer: [{ type: 'required', message: 'Customer is required' }],
+    milkcard: [{ type: 'required', message: 'Customer is required' }],
+  };
 
   customerChange(value: string) {
-    const customer = this.customerList.filter(customer => customer?.phone === value);
+    const customer = this.customerList.filter(
+      (customer) => customer?.phone === value
+    );
     this.customerSelected = customer[0];
   }
 
   private _filter(value: string): string[] {
     const filterValue = value?.toLowerCase();
-    return this.customerList?.filter(customer => customer?.phone?.toLowerCase().includes(filterValue));
+    return this.customerList?.filter((customer) =>
+      customer?.phone?.toLowerCase().includes(filterValue)
+    );
   }
 
   calculatePrice(value: any) {
-    const result = value?.split(",");
+    const result = value?.split(',');
     const milkcard = this.milkcard.find((item: any) => item._id === result[0]);
     this.totalamount = milkcard.price;
   }
 
   onSubmit(value: any) {
-    const customerCondition = this.activeSegment === 'existing' ? !!this.customerSelected : true;
+    const customerCondition =
+      this.activeSegment === 'existing' ? !!this.customerSelected : true;
     if (this.milkcardForm.status === 'VALID' && customerCondition) {
-      const milkcard = value?.milkcard?.split(",");
+      const milkcard = value?.milkcard?.split(',');
       let data: any = {
         milkcard: milkcard[0],
         validity: milkcard[1],
         store: localStorage.getItem('store'),
         price: this.totalamount,
-        paymentMethod: value.paymentMethod
+        paymentMethod: value.paymentMethod,
       };
 
       if (this.activeSegment === 'existing') {
         data = {
           ...data,
           customer: {
-            id: this.customerSelected
-          }
-        }
+            id: this.customerSelected,
+          },
+        };
       } else {
         data = {
           ...data,
           customer: {
             name: value.name,
-            phone: value.phone
-          }
-        }
+            phone: value.phone,
+          },
+        };
       }
 
-      this.apiservice.createMilkcardEntry(data)
-        .subscribe((data: any) => {
-          if (data.success) {
-            this.presenttoast(data.message);
-            this.formGroupDirective.resetForm();
-            this.totalamount = 0;
-          }
-          else {
-            this.presenttoast(data.message);
-          }
-          this.isDisabled = false;
-        })
-    }
-    else {
-      this.presenttoast('Enter all valid inputs')
+      this.apiservice.createMilkcardEntry(data).subscribe((data: any) => {
+        if (data.success) {
+          this.presenttoast(data.message);
+          this.formGroupDirective.resetForm();
+          this.totalamount = 0;
+        } else {
+          this.presenttoast(data.message);
+        }
+        this.isDisabled = false;
+      });
+    } else {
+      this.presenttoast('Enter all valid inputs');
     }
   }
 
-  segmentChanged(value: string) {
-    this.activeSegment = value;
+  segmentChanged(event: any) {
+    this.activeSegment = event.target.value;
   }
 
   async presenttoast(txt) {
     const toast = await this.toastCtrl.create({
       message: txt,
-      duration: 2500
+      duration: 2500,
     });
     toast.present();
   }
-
 }

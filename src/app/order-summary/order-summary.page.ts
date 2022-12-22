@@ -101,8 +101,8 @@ export class OrderSummaryPage implements OnInit {
     this.modalCtrl.dismiss();
   }
 
-  segmentChanged(value: string){
-    this.activeSegment = value;
+  segmentChanged(event: any){
+    this.activeSegment = event.target.value;
   }
 
   removeCart(productId) {

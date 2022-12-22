@@ -14,7 +14,7 @@
   </ion-row>
   <ion-row style="padding: 0% 6%;">
     <ion-col size="12">
-      <ion-segment [value]="activeSegment" (ionChange)="segmentChanged($event.target.value)">
+      <ion-segment [value]="activeSegment" (ionChange)="segmentChanged($event)">
         <ion-segment-button value="existing">
           <ion-label>Existing Customer</ion-label>
         </ion-segment-button>
@@ -57,7 +57,7 @@
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>Quantity</mat-label>
-          <input (change)="calculatePrice($event.target.value)" matInput placeholder="Enter amount" type="number" min="1" formControlName="quantity">
+          <input (change)="changeQuantity($event)" matInput placeholder="Enter amount" type="number" min="1" formControlName="quantity">
         </mat-form-field>
 
         <mat-form-field style="margin-right: 3%;" appearance="outline">

@@ -36,7 +36,7 @@
           <mat-icon matSuffix>money</mat-icon>
           <mat-hint>
             <div class="validation-errors">
-              <ng-container *ngFor="let validation of validation_messages.phone">
+              <ng-container *ngFor="let validation of validation_messages.amount">
                 <div class="error-message"
                   *ngIf="costMgtForm.get('amount').hasError(validation.type) && (costMgtForm.get('amount').dirty || costMgtForm.get('amount').touched)">
                   <ion-icon name="information-circle-outline"></ion-icon>
